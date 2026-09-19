@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คู่มือสรุปข้อสอบ UX Design & Figma Core Cheat Sheet</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Tailwind Design Tokens -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            figma: {
+              purple: '#7B61FF',
+              red: '#F24E1E',
+              orange: '#FF7262',
+              green: '#0ACF83',
+              cyan: '#1ABCFE',
+              bgDark: '#111319',
+              cardDark: '#1A1D26',
+              borderDark: '#2D3242',
+              accent: '#7B61FF'
+            }
+          },
+          fontFamily: {
+            sans: ['Prompt', 'Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Prompt', 'Inter', sans-serif;
+      background-color: #0F1117;
+      color: #E2E8F0;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0F1117;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #272C3D;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #7B61FF;
+    }
+
+    .glass-card {
+      background: rgba(26, 29, 38, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(123, 97, 255, 0.35);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab-active {
+      background: linear-gradient(135deg, rgba(123, 97, 255, 0.25), rgba(26, 188, 254, 0.25));
+      border-color: #7B61FF !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 0 15px rgba(123, 97, 255, 0.2);
+    }
+
+    .badge-fpurple { background: rgba(123, 97, 255, 0.15); color: #C4B5FD; border: 1px solid rgba(123, 97, 255, 0.3); }
+    .badge-fred { background: rgba(242, 78, 30, 0.15); color: #FF8A65; border: 1px solid rgba(242, 78, 30, 0.3); }
+    .badge-fgreen { background: rgba(10, 207, 131, 0.15); color: #6EE7B7; border: 1px solid rgba(10, 207, 131, 0.3); }
+    .badge-fcyan { background: rgba(26, 188, 254, 0.15); color: #67E8F9; border: 1px solid rgba(26, 188, 254, 0.3); }
+
+    /* Perspective & Card Flip */
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0F1117] text-slate-100 flex flex-col selection:bg-figma-purple selection:text-white">
+
+  <!-- Header Bar -->
+  <header class="sticky top-0 z-50 bg-[#0F1117]/95 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Logo Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-figma-purple via-figma-cyan to-figma-green flex items-center justify-center shadow-lg shadow-figma-purple/20">
+          <i data-lucide="figma" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+            Figma & UX Design Exam Study Guide
+          </h1>
+          <p class="text-xs text-slate-400">คู่มือสรุปข้อสอบวิชา UI/UX & Figma Tools ภาษาไทย</p>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="relative w-full md:w-80 lg:w-96">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="ค้นหา เช่น Auto Layout, Component, Pain Point..." 
+          class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-figma-purple focus:ring-1 focus:ring-figma-purple transition"
+          oninput="handleSearch(this.value)"
+        />
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">ESC</span>
+      </div>
+
+      <!-- Nav Tabs -->
+      <nav class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-medium w-full md:w-auto overflow-x-auto">
+        <button onclick="switchTab('ux')" id="tab-ux" class="tab-btn tab-active px-3.5 py-1.5 rounded-lg border border-transparent transition flex items-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-figma-purple"></i> 1. UX Process
+        </button>
+        <button onclick="switchTab('figma')" id="tab-figma" class="tab-btn px-3.5 py-1.5 rounded-lg border border-transparent text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-figma-cyan"></i> 2. Figma Tools
+        </button>
+        <button onclick="switchTab('builder')" id="tab-builder" class="tab-btn px-3.5 py-1.5 rounded-lg border border-transparent text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="workflow" class="w-3.5 h-3.5 text-figma-green"></i> 3. Flow Visualizer
+        </button>
+        <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-3.5 py-1.5 rounded-lg border border-transparent text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-figma-orange"></i> 4. Flashcards
+        </button>
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-3.5 py-1.5 rounded-lg border border-transparent text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5 text-figma-red"></i> 5. แนวข้อสอบ
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-8">
+
+    <!-- Search Overlay -->
+    <div id="searchResults" class="hidden glass-card p-6 border border-figma-purple/40 bg-slate-900/95 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-semibold text-figma-purple flex items-center gap-2 text-sm">
+          <i data-lucide="search" class="w-4 h-4"></i> ผลการค้นหาข้อสอบ
+        </h3>
+        <button onclick="clearSearch()" class="text-xs text-slate-400 hover:text-white">ปิด [Esc]</button>
+      </div>
+      <div id="searchList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- TAB 1: UX PROCESS & PROBLEM SOLVING -->
+    <section id="content-ux" class="tab-content space-y-8">
+      
+      <!-- Banner -->
+      <div class="relative overflow-hidden glass-card p-6 md:p-8 border border-figma-purple/30 bg-gradient-to-r from-slate-900 via-purple-950/20 to-slate-900">
+        <div class="max-w-3xl space-y-3">
+          <span class="badge-fpurple font-mono text-xs px-2.5 py-1 rounded-md">ส่วนที่ 1: กระบวนการคิดเชิง UX (UX Process & Problem Solving)</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-white">วิจัยผู้ใช้, สกัด Pain Point, ตั้งโจทย์ HMW และเขียน User Flow</h2>
+          <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+            สรุปขั้นตอนการทำ UX Research เพื่อไม่ให้ตกหลุมพรางการ <span class="text-figma-red font-semibold">"เดาเอาเอง"</span> โดยเน้นที่มาของข้อมูล และการสกัดปัญหาไปสู่การออกแบบฟีเจอร์อย่างเป็นระบบ
+          </p>
+        </div>
+      </div>
+
+      <!-- 1.1 User Research -->
+      <div class="space-y-4 searchable-item" data-keywords="user research การวิจัยผู้ใช้ primary research secondary research interview survey contextual inquiry usability testing competitor analysis desk research">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-figma-purple/10 text-figma-purple">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white">1. User Research (การวิจัยผู้ใช้) มาจากไหน และหาอย่างไร?</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Primary Research -->
+          <div class="glass-card p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 class="font-bold text-figma-purple text-sm flex items-center gap-2">
+                <i data-lucide="user-check" class="w-4 h-4"></i> Primary Research (วิจัยทางตรง)
+              </h4>
+              <span class="badge-fpurple text-[10px]">เก็บข้อมูลใหม่จากผู้ใช้จริง</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              คือการเข้าหา <strong class="text-white">"ผู้ใช้จริง (Target Users)"</strong> โดยตรงเพื่อค้นหาพฤติกรรม ข้อจำกัด และความรู้สึกที่แท้จริง
+            </p>
+            
+            <div class="space-y-2.5 text-xs">
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <div class="font-bold text-white flex justify-between">
+                  <span>1. User Interview (สัมภาษณ์เชิงลึก)</span>
+                  <span class="text-figma-purple font-mono">Qualitative</span>
+                </div>
+                <p class="text-slate-400">คุยแบบ 1-on-1 เพื่อถามเหตุผล "ทำไม" หาความรู้สึกและแรงจูงใจเบื้องหลัง</p>
+              </div>
+
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <div class="font-bold text-white flex justify-between">
+                  <span>2. Contextual Inquiry (สังเกตการณ์หน้างาน)</span>
+                  <p class="text-slate-400">ไปนั่งเฝ้าดูผู้ใช้ทำงานในสภาพแวดล้อมจริง เพื่อเห็นปัญหาที่ผู้ใช้เองก็พูดไม่ถูก</p>
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <div class="font-bold text-white flex justify-between">
+                  <span>3. Surveys / Questionnaires (แบบสอบถาม)</span>
+                  <span class="text-figma-cyan font-mono">Quantitative</span>
+                </div>
+                <p class="text-slate-400">ส่งแบบสอบถามเน้นปริมาณมากเพื่อดูแนวโน้มสถิติ ตัวเลขสัดส่วน</p>
+              </div>
+
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <div class="font-bold text-white flex justify-between">
+                  <span>4. Usability Testing (การทดสอบการใช้งาน)</span>
+                  <span class="text-figma-green font-mono">Behavioral</span>
+                </div>
+                <p class="text-slate-400">ให้ผู้ใช้ทดลองกด Prototype หน้าจอจริงแล้วสังเกตจุดติดขัด (Friction)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Research -->
+          <div class="glass-card p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 class="font-bold text-figma-cyan text-sm flex items-center gap-2">
+                <i data-lucide="file-search" class="w-4 h-4"></i> Secondary Research (วิจัยทางอ้อม)
+              </h4>
+              <span class="badge-fcyan text-[10px]">ศึกษาข้อมูลที่มีอยู่แล้ว</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              คือการรวบรวมข้อมูล ข่าวสาร สถิติ หรือการวิเคราะห์ที่มีผู้รวบรวมไว้ล่วงหน้า
+            </p>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <span class="font-bold text-white">1. Competitor Analysis (วิเคราะห์คู่แข่ง)</span>
+                <p class="text-slate-400">ศึกษาสิ่งที่แอปคู่แข่งทำดี และจุดอ่อนที่คู่แข่งมองข้าม</p>
+              </div>
+
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <span class="font-bold text-white">2. Product Analytics & Heatmaps</span>
+                <p class="text-slate-400">ดูข้อมูลสถิติเดิม เช่น Drop-off Rate (จุดที่คนกดเลิกใช้) หรือจุดที่คนกดมากที่สุด</p>
+              </div>
+
+              <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 space-y-1">
+                <span class="font-bold text-white">3. Desk Research & Review Mining</span>
+                <p class="text-slate-400">อ่านรีวิวแอปบน App Store / Play Store สกัดข้อร้องเรียนของผู้ใช้</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 1.2 Pain Points & Tools -->
+      <div class="space-y-4 searchable-item" data-keywords="pain point คืออะไร มาจากไหน หาอย่างไร empathy map 5 whys affinity diagram customer journey map">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-figma-red/10 text-figma-red">
+            <i data-lucide="alert-circle" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white">2. Pain Point คืออะไร, มาจากไหน และหาอย่างไร?</h3>
+        </div>
+
+        <div class="glass-card p-6 space-y-6">
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2">
+              <span class="text-figma-red font-bold font-mono">DEFINITION</span>
+              <h4 class="font-bold text-white text-sm">Pain Point คืออะไร?</h4>
+              <p class="text-slate-300 leading-relaxed">
+                คือ <strong class="text-figma-red">"อุปสรรค ความหงุดหงิด ความยากลำบาก"</strong> ที่ผู้ใช้พบเจอขณะพยายามทำภารกิจใดภารกิจหนึ่งให้สำเร็จ
+              </p>
+            </div>
+
+            <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2">
+              <span class="text-figma-orange font-bold font-mono">ORIGIN</span>
+              <h4 class="font-bold text-white text-sm">มาจากไหน?</h4>
+              <p class="text-slate-300 leading-relaxed">
+                มาจากขั้นตอน **Empathize & Research** (การฟังเสียงบ่น, สังเกตเห็นจุดติดขัด, อ่านตั๋วบริการลูกค้า)
+              </p>
+            </div>
+
+            <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-2">
+              <span class="text-figma-purple font-bold font-mono">METHODOLOGY</span>
+              <h4 class="font-bold text-white text-sm">หาอย่างไร? (4 เครื่องมือ)</h4>
+              <p class="text-slate-300 leading-relaxed">
+                ใช้ Empathy Map, 5 Whys, Affinity Diagram และ Customer Journey Map
+              </p>
+            </div>
+          </div>
+
+          <!-- Tools Breakdown -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            
+            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-figma-purple text-sm flex items-center gap-1.5">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i> Empathy Map
+              </h5>
+              <p class="text-slate-400">จำแนกข้อมูลผู้ใช้เป็น 4 ช่อง:</p>
+              <ul class="list-disc list-inside text-slate-300 space-y-1">
+                <li><strong>Says:</strong> สิ่งที่พูด</li>
+                <li><strong>Thinks:</strong> สิ่งที่คิด</li>
+                <li><strong>Does:</strong> สิ่งที่ทำ</li>
+                <li><strong>Feels:</strong> ความรู้สึก</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-figma-cyan text-sm flex items-center gap-1.5">
+                <i data-lucide="help-circle" class="w-4 h-4"></i> 5 Whys Analysis
+              </h5>
+              <p class="text-slate-400">ถามคำว่า "ทำไม" ต่อเนื่องกัน 5 ครั้ง เพื่อสาวหา **Root Cause (สาเหตุรากเหง้า)** ที่แท้จริง ไม่หลอกตัวเองด้วยปัญหาฉาบฉวย</p>
+            </div>
+
+            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-figma-green text-sm flex items-center gap-1.5">
+                <i data-lucide="layers" class="w-4 h-4"></i> Affinity Diagram
+              </h5>
+              <p class="text-slate-400">นำข้อมูลบ่นและข้อสังเกตเขียนใส่ Sticky Notes แล้วจัดกลุ่ม (Cluster) ปัญหาที่มีแพตเทิร์นคล้ายกันเข้าด้วยกัน</p>
+            </div>
+
+            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+              <h5 class="font-bold text-figma-orange text-sm flex items-center gap-1.5">
+                <i data-lucide="map" class="w-4 h-4"></i> Customer Journey Map
+              </h5>
+              <p class="text-slate-400">กางเส้นทางขั้นตอนการใช้แอป และดูกราฟอารมณ์ (Emotion Curve) จุดที่กราฟตกต่ำสุด คือจุด Pain Point</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 1.3 HMW Transformation -->
+      <div class="space-y-4 searchable-item" data-keywords="hmw how might we การแปลง pain point เป็น solution ก่อน หลัง">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-figma-green/10 text-figma-green">
+            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white">3. การแปลง Pain Point เป็น Solution ด้วย "How Might We (HMW)"</h3>
+        </div>
+
+        <div class="glass-card p-6 space-y-4 text-xs">
+          <p class="text-slate-300 leading-relaxed">
+            **HMW (How Might We...)** คือการเปลี่ยนคำบ่นหรือปัญหาให้กลายเป็น **"คำถามเชิงบวกชวนคิดโซลูชัน"** เพื่อเป็นสะพานเชื่อมระหว่างระยะ Define ไปสู่ Ideation
+          </p>
+
+          <!-- Comparison Table Before & After -->
+          <div class="overflow-x-auto border border-slate-800 rounded-xl">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-900 text-slate-200 border-b border-slate-800 font-semibold">
+                  <th class="p-3">ระยะ (Stage)</th>
+                  <th class="p-3 text-figma-red">Pain Point (ข้อขัดข้องของผู้ใช้)</th>
+                  <th class="p-3 text-figma-cyan">HMW Statement (การตั้งโจทย์)</th>
+                  <th class="p-3 text-figma-green">Solution / Feature (ฟีเจอร์ที่ได้)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                <tr class="hover:bg-slate-900/40">
+                  <td class="p-3 font-semibold text-white">แอปกรอกที่อยู่</td>
+                  <td class="p-3 text-slate-300">"กรอกที่อยู่จัดส่งยาวมาก พิมพ์ในมือถือเสียเวลาทำให้อยากยกเลิก"</td>
+                  <td class="p-3 font-medium text-figma-cyan">"เราจะทำอย่างไรให้ผู้ใช้ระบุที่อยู่ได้โดยไม่ต้องพิมพ์ข้อความยาวๆ?"</td>
+                  <td class="p-3 text-figma-green">ฟีเจอร์ปุ่ม "ดึงพิกัด GPS ปัจจุบัน" + ค้นหารหัสไปรษณีย์แล้วเติมอำเภออัตโนมัติ</td>
+                </tr>
+                <tr class="hover:bg-slate-900/40">
+                  <td class="p-3 font-semibold text-white">แอปสั่งอาหาร</td>
+                  <td class="p-3 text-slate-300">"หิวข้าวตอนเที่ยง แต่เสียเวลานั่งเลือกเมนูนานเกินไป"</td>
+                  <td class="p-3 font-medium text-figma-cyan">"เราจะทำอย่างไรให้ผู้ใช้สั่งอาหารชุดเดิมที่ชอบได้ภายใน 2 คลิก?"</td>
+                  <td class="p-3 text-figma-green">ฟีเจอร์ "Re-order ปุ่มสั่งซ้ำเมนูโปรด" บนหน้าแรก</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.4 User Flow & Standard Symbols -->
+      <div class="space-y-4 searchable-item" data-keywords="user flow สัญลักษณ์ flowchart oval rectangle diamond arrow entry point decision action success state">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-figma-cyan/10 text-figma-cyan">
+            <i data-lucide="git-merge" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white">4. User Flow คืออะไร & สัญลักษณ์มาตรฐาน Flowchart</h3>
+        </div>
+
+        <div class="glass-card p-6 space-y-6 text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-3">
+              <h4 class="font-bold text-white text-sm">User Flow ประกอบด้วย 4 องค์ประกอบหลัก:</h4>
+              <ul class="space-y-2 text-slate-300 list-disc list-inside">
+                <li><strong class="text-white">1. Entry Point:</strong> จุดเริ่มต้นเข้าสู่ระบบ (เช่น เปิดแอป, คลิก Banner)</li>
+                <li><strong class="text-white">2. Action Steps:</strong> ขั้นตอนการทำงานที่ผู้ใช้กระทำ (เช่น กดปุ่ม, กรอกฟอร์ม)</li>
+                <li><strong class="text-white">3. Decision Points:</strong> จุดตัดสินใจหรือเงื่อนไขระบบ (เช่น ล็อกอินหรือยัง? ยอดเงินพอหรือไม่?)</li>
+                <li><strong class="text-white">4. Success State:</strong> จุดสิ้นสุดเป้าหมายสำเร็จ (เช่น สั่งซื้อสำเร็จ, แสดงใบเสร็จ)</li>
+              </ul>
+            </div>
+
+            <!-- Standard Symbols Grid -->
+            <div class="p-4 bg-slate-900/90 rounded-xl border border-slate-800 space-y-3">
+              <h4 class="font-bold text-figma-cyan text-sm">สัญลักษณ์ Flowchart มาตรฐานที่ออกสอบ:</h4>
+              <div class="space-y-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-16 h-7 rounded-full bg-slate-800 border border-figma-purple flex items-center justify-center font-mono font-bold text-[10px] text-figma-purple">Oval</div>
+                  <span><strong>Start / End Node:</strong> จุดเริ่มต้น หรือ จุดสิ้นสุดของ Flow</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-16 h-7 rounded-md bg-slate-800 border border-figma-cyan flex items-center justify-center font-mono font-bold text-[10px] text-figma-cyan">Rectangle</div>
+                  <span><strong>Screen / Process Action:</strong> หน้าจอ หรือ การกระทำของผู้ใช้</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-16 h-8 bg-slate-800 border border-figma-orange transform rotate-45 flex items-center justify-center font-mono font-bold text-[9px] text-figma-orange my-1"><span class="transform -rotate-45">Diamond</span></div>
+                  <span><strong>Decision Node:</strong> จุดตัดสินใจเงื่อนไข (มีทางออก Yes / No)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: FIGMA CORE TOOLS CHEAT SHEET -->
+    <section id="content-figma" class="tab-content hidden space-y-8">
+      
+      <!-- Banner -->
+      <div class="relative overflow-hidden glass-card p-6 md:p-8 border border-figma-cyan/30 bg-gradient-to-r from-slate-900 via-cyan-950/20 to-slate-900">
+        <div class="max-w-3xl space-y-3">
+          <span class="badge-fcyan font-mono text-xs px-2.5 py-1 rounded-md">ส่วนที่ 2: สรุปฟีเจอร์เครื่องมือ Figma (Comprehensive Figma Cheat Sheet)</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-white">ตารางสัญลักษณ์, คีย์บอร์ดลัด, คุณสมบัติเด่น และการนำไปใช้</h2>
+          <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+            สรุปครบทุกเครื่องมือหลักที่ออกสอบ พร้อมสัญลักษณ์จำง่าย <span class="badge-fpurple">❖ Component</span>, <span class="badge-fcyan">◇ Instance</span>, <span class="badge-fgreen">|| Auto Layout</span>, <span class="badge-fred">Variants</span> และ <span class="text-figma-orange">Design Tokens</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Comprehensive Tools Table Card -->
+      <div class="glass-card p-6 space-y-6 searchable-item" data-keywords="frame group component instance auto layout variants variables constraints prototyping section boolean operations shift a cmd g">
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-900/90 text-slate-200 border-b border-slate-800 font-semibold">
+                <th class="p-3.5">เครื่องมือ (Tools)</th>
+                <th class="p-3.5 text-center">สัญลักษณ์ / Shortcut</th>
+                <th class="p-3.5">ลักษณะเด่น (Key Behavior)</th>
+                <th class="p-3.5">นำไปใช้ทำอะไร (Use Case)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/70 text-slate-300">
+              
+              <!-- Frame -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-white flex items-center gap-2">
+                  <span class="p-1 rounded bg-figma-purple/20 text-figma-purple font-mono">#</span> Frame
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-purple"># / F / Shift + F</td>
+                <td class="p-3.5">มีขนาดขอบเขตอิสระของตัวเอง, ใส่ Background, Auto Layout, Constraints และ **Clip Content** ได้</td>
+                <td class="p-3.5 text-slate-400">ใช้ทำเป็นหน้าจอแอป (Screen) หรือ Container ครอบ UI Element</td>
+              </tr>
+
+              <!-- Group -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-white flex items-center gap-2">
+                  <span class="p-1 rounded bg-slate-800 font-mono text-slate-400">[ ]</span> Group
+                </td>
+                <td class="p-3.5 text-center font-mono text-slate-400">Cmd + G / Ctrl + G</td>
+                <td class="p-3.5">ไม่มีขนาดของตัวเอง ขึ้นกับวัตถุรวมกัน, เวลาขยาย Group วัตถุข้างในจะ **Scale ยืดหดตาม**</td>
+                <td class="p-3.5 text-slate-400">ใช้รวมกลุ่มวัตถุชั่วคราวเพื่อย้ายตำแหน่งพร้อมกัน</td>
+              </tr>
+
+              <!-- Main Component -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-purple flex items-center gap-2">
+                  <span>❖</span> Main Component
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-purple">❖ เพชรทึบ 4 เม็ด / Cmd+Opt+K</td>
+                <td class="p-3.5">**แม่พิมพ์หลัก** เมื่อแก้ไขสไตล์หรือตำแหน่งที่ Main Component ตัวลูก (Instance) จะเปลี่ยนตามทั้งหมด</td>
+                <td class="p-3.5 text-slate-400">สร้างเป็น Master UI Element เช่น ปุ่มมาตรฐาน, Header bar, Navbar</td>
+              </tr>
+
+              <!-- Instance Component -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-cyan flex items-center gap-2">
+                  <span>◇</span> Instance Component
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-cyan">◇ เพชรโปร่ง 1 เม็ด</td>
+                <td class="p-3.5">**ชิ้นงานลูก** ที่ก๊อปปี้จากแม่ สามารถ **Override** (เปลี่ยนข้อความ/สี/รูป) ได้โดยไม่กระทบแม่</td>
+                <td class="p-3.5 text-slate-400">นำไปวางแปะใช้งานจริงตามหน้าจอต่างๆ</td>
+              </tr>
+
+              <!-- Auto Layout -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-green flex items-center gap-2">
+                  <span>||</span> Auto Layout
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-green">|| / Shift + A</td>
+                <td class="p-3.5">จัดระเบียบวัตถุอัตโนมัติ กำหนด **Padding, Gap, Alignment, Hug Content / Fill Container** ได้</td>
+                <td class="p-3.5 text-slate-400">ใช้ทำรายการ List, Button ยืดตามข้อความ, Responsive Layout</td>
+              </tr>
+
+              <!-- Variants -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-red flex items-center gap-2">
+                  <span>❖❖</span> Variants / Set
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-red">❖ ในกรอบเส้นประ</td>
+                <td class="p-3.5">รวมกลุ่ม Component เดียวกันแต่ต่างสถานะ (States) เข้าด้วยกันเป็น Set เดียว ให้เลือกสลับใน Inspector</td>
+                <td class="p-3.5 text-slate-400">รวมปุ่มสถานะ Default, Hover, Pressed, Disabled, Primary, Secondary</td>
+              </tr>
+
+              <!-- Variables / Design Tokens -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-orange flex items-center gap-2">
+                  <span>◇</span> Variables / Tokens
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-orange">◇ ในวงกลม / Variable Panel</td>
+                <td class="p-3.5">เก็บค่ากลาง เช่น Color, Number, String, Boolean สลับโหมด Light/Dark Mode ได้ง่าย</td>
+                <td class="p-3.5 text-slate-400">ใช้ทำ Design System สลับธีมสี หรือทำตัวแปรตัวเลขใน Prototype</td>
+              </tr>
+
+              <!-- Constraints -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-white flex items-center gap-2">
+                  <span>📐</span> Constraints
+                </td>
+                <td class="p-3.5 text-center font-mono text-slate-300">Crosshair / Pin</td>
+                <td class="p-3.5">ยึดตำแหน่งวัตถุใน Frame (Top, Bottom, Left, Right, Center, Scale) เมื่อ Frame ยืดหด</td>
+                <td class="p-3.5 text-slate-400">ทำ Responsive Design ตรึง Navbar ไว้ด้านบน หรือ Floating Button ด้านล่าง</td>
+              </tr>
+
+              <!-- Prototyping -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-figma-purple flex items-center gap-2">
+                  <span>➔</span> Prototyping
+                </td>
+                <td class="p-3.5 text-center font-mono text-figma-purple">➔ / Prototype Tab</td>
+                <td class="p-3.5">เชื่อมสาย Interaction ด้วย **Triggers** (On Click, Hover) และ **Smart Animate** คำนวณการย้ายวัตถุ</td>
+                <td class="p-3.5 text-slate-400">ทำภาพเคลื่อนไหวจำลองแอปเสมือนจริงให้ผู้ใช้ทดสอบ</td>
+              </tr>
+
+              <!-- Section -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-slate-200 flex items-center gap-2">
+                  <span>[=]</span> Section
+                </td>
+                <td class="p-3.5 text-center font-mono text-slate-400">[=] / Shift + S</td>
+                <td class="p-3.5">กรอบครอบแบ่งหมวดหมู่พื้นที่ขนาดใหญ่บน Canvas มาร์กสถานะ Ready for dev ได้</td>
+                <td class="p-3.5 text-slate-400">จัดกลุ่มหน้าจอตาม Flow เช่น User Onboarding Flow, Checkout Flow</td>
+              </tr>
+
+              <!-- Boolean Operations -->
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-3.5 font-bold text-slate-200 flex items-center gap-2">
+                  <span>◐</span> Boolean Operations
+                </td>
+                <td class="p-3.5 text-center font-mono text-slate-400">Union, Subtract, Intersect, Exclude</td>
+                <td class="p-3.5">นำ Shape Vector มาผสาน ตัดทอน หรือหาจุดตัดกัน เพื่อสร้าง Shape รูปทรงใหม่</td>
+                <td class="p-3.5 text-slate-400">ใช้ทำ Custom Icon หรือ Graphic Vector โลโก้</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 3: INTERACTIVE USER FLOW BUILDER -->
+    <section id="content-builder" class="tab-content hidden space-y-8">
+      
+      <div class="glass-card p-6 border border-figma-green/30 bg-gradient-to-r from-slate-900 via-emerald-950/20 to-slate-900 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="badge-fgreen font-mono text-xs px-2.5 py-1 rounded-md">ส่วนที่ 3: จำลองการสร้าง User Flow จากโจทย์จริง</span>
+          <h2 class="text-2xl font-bold text-white">Interactive User Flow Simulator</h2>
+          <p class="text-xs text-slate-300">ทดลองคลิกทีละขั้นตอนเพื่อเรียนรู้โครงสร้างการสร้าง Flow สำหรับการออกแบบฟีเจอร์</p>
+        </div>
+      </div>
+
+      <!-- Flow Simulator Container -->
+      <div class="glass-card p-6 space-y-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-2 text-center text-xs" id="flowSimContainer">
+          <button onclick="setSimStep(1)" id="sim-step-1" class="p-3 rounded-xl border border-figma-green bg-figma-green/20 text-white font-bold transition">
+            1. Entry Point
+          </button>
+          <button onclick="setSimStep(2)" id="sim-step-2" class="p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 font-bold transition">
+            2. User Action
+          </button>
+          <button onclick="setSimStep(3)" id="sim-step-3" class="p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 font-bold transition">
+            3. Decision Node
+          </button>
+          <button onclick="setSimStep(4)" id="sim-step-4" class="p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 font-bold transition">
+            4. System Action
+          </button>
+          <button onclick="setSimStep(5)" id="sim-step-5" class="p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 font-bold transition">
+            5. Success State
+          </button>
+        </div>
+
+        <div id="simDetailBox" class="p-5 bg-slate-950 rounded-xl border border-slate-800 space-y-3 text-xs">
+          <!-- Filled dynamically by JS -->
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 4: INTERACTIVE FLASHCARDS -->
+    <section id="content-flashcards" class="tab-content hidden space-y-8">
+      
+      <div class="glass-card p-6 border border-figma-orange/30 bg-gradient-to-r from-slate-900 via-orange-950/20 to-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="badge-fpurple font-mono text-xs px-2.5 py-1 rounded-md">ส่วนที่ 4: บัตรคำทบทวนสั้น</span>
+          <h2 class="text-2xl font-bold text-white">Interactive Study Flashcards</h2>
+          <p class="text-xs text-slate-300">พลิกการ์ดเพื่อท่องจำคีย์เวิร์ดสำคัญก่อนเข้าห้องสอบ</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="prevCard()" class="p-2.5 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <span id="cardCounter" class="text-xs font-mono text-slate-400 px-2">1 / 6</span>
+          <button onclick="nextCard()" class="p-2.5 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Flashcard Render -->
+      <div class="flex justify-center perspective-1000 my-8">
+        <div id="flashcardElement" onclick="flipCard()" class="w-full max-w-xl h-72 cursor-pointer relative transform-style-3d">
+          
+          <!-- Front -->
+          <div class="absolute inset-0 w-full h-full glass-card p-8 border-2 border-figma-purple/50 flex flex-col items-center justify-center text-center space-y-4 backface-hidden bg-slate-900/90 shadow-2xl">
+            <span class="text-xs font-mono text-figma-purple bg-figma-purple/10 px-3 py-1 rounded-full border border-figma-purple/30">
+              QUESTION / TERM
+            </span>
+            <h3 id="cardQuestion" class="text-xl md:text-2xl font-bold text-white">
+              Auto Layout คีย์บอร์ดลัดคืออะไร?
+            </h3>
+            <p class="text-xs text-slate-500">แตะหรือคลิกเพื่อพลิกดูเฉลย</p>
+          </div>
+
+          <!-- Back -->
+          <div class="absolute inset-0 w-full h-full glass-card p-8 border-2 border-figma-cyan/50 flex flex-col items-center justify-center text-center space-y-4 backface-hidden rotate-y-180 bg-slate-950 shadow-2xl">
+            <span class="text-xs font-mono text-figma-cyan bg-figma-cyan/10 px-3 py-1 rounded-full border border-figma-cyan/30">
+              ANSWER / DEFINITION
+            </span>
+            <p id="cardAnswer" class="text-base md:text-lg font-medium text-slate-200">
+              กด <span class="badge-fpurple font-bold">Shift + A</span> ใช้จัดระเบียบวัตถุอัตโนมัติ ยืดหดตาม Padding และ Gap
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 5: PRACTICE QUIZ SIMULATOR -->
+    <section id="content-quiz" class="tab-content hidden space-y-8">
+      
+      <div class="glass-card p-6 border border-figma-red/30 bg-gradient-to-r from-slate-900 via-rose-950/20 to-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="badge-fred font-mono text-xs px-2.5 py-1 rounded-md">ส่วนที่ 5: แนวข้อสอบเก็งเข้มข้น</span>
+          <h2 class="text-2xl font-bold text-white">Exam Simulation Quiz</h2>
+          <p class="text-xs text-slate-300">ทำแบบทดสอบประเมินความพร้อม พร้อมเฉลยละเอียดทันที</p>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-slate-400">คะแนนของคุณ:</span>
+          <div id="quizScoreDisplay" class="text-2xl font-bold text-figma-red">0 / 5</div>
+        </div>
+      </div>
+
+      <!-- Quiz Items -->
+      <div id="quizContainer" class="space-y-6"></div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-[#0F1117] py-6 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span>Figma & UX Design Exam Study Guide &bull; พร้อมเข้าห้องสอบอย่างมั่นใจ</span>
+      <div class="flex items-center gap-3 text-slate-400">
+        <span class="hover:text-white cursor-pointer" onclick="switchTab('ux')">UX Process</span> &bull; 
+        <span class="hover:text-white cursor-pointer" onclick="switchTab('figma')">Figma Cheat Sheet</span> &bull; 
+        <span class="hover:text-white cursor-pointer" onclick="switchTab('quiz')">แนวข้อสอบ</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* Flashcard Data */
+    const flashcardDeck = [
+      {
+        q: "Auto Layout คีย์บอร์ดลัดคืออะไร และมีหน้าที่อะไร?",
+        a: "คีย์บอร์ดลัดคือ <strong class='text-figma-purple'>Shift + A</strong> ใช้จัดระเบียบวัตถุอัตโนมัติ ควบคุม Padding, Gap และยืดหดตามเนื้อหา"
+      },
+      {
+        q: "Main Component กับ Instance สังเกตไอคอนสัญลักษณ์อย่างไร?",
+        a: "Main Component ใช้สัญลักษณ์ <strong class='text-figma-purple'>❖ (เพชรทึบ 4 เม็ด)</strong> ส่วน Instance ใช้สัญลักษณ์ <strong class='text-figma-cyan'>◇ (เพชรโปร่ง 1 เม็ด)</strong>"
+      },
+      {
+        q: "Pain Point ของผู้ใช้มาจากไหนได้บ้าง?",
+        a: "มาจากขั้นตอน <strong class='text-white'>Empathize & User Research</strong> เช่น สัมภาษณ์ผู้ใช้จริง (Interview), สังเกตการณ์ (Contextual Inquiry) และอ่านตั๋วบริการลูกค้า"
+      },
+      {
+        q: "How Might We (HMW) มีไว้ทำอะไร?",
+        a: "ใช้เปลี่ยน <strong class='text-figma-red'>คำบ่น/ข้อขัดข้อง (Pain Point)</strong> ให้กลายเป็น <strong class='text-figma-green'>คำถามเชิงสร้างสรรค์</strong> เพื่อระดมไอเดียหาฟีเจอร์แก้ปัญหา"
+      },
+      {
+        q: "Hug Content กับ Fill Container ต่างกันอย่างไรใน Auto Layout?",
+        a: "<strong class='text-figma-purple'>Hug Content:</strong> กรอบหดรัดตามขนาดเนื้อหาข้างใน / <strong class='text-figma-cyan'>Fill Container:</strong> วัตถุขยายยืดเต็มพื้นที่ Frame แม่"
+      },
+      {
+        q: "Frame (#) ต่างจาก Group ([ ]) อย่างไรในการทำ Responsive?",
+        a: "Frame สามารถเปิดใช้ <strong class='text-figma-purple'>Clip Content</strong> และตั้งค่า <strong class='text-figma-green'>Constraints</strong> ได้ แต่ Group ทำไม่ได้ (Group จะยืดหดตามสเกลเสมอ)"
+      }
+    ];
+
+    /* Flow Simulation Data */
+    const simStepData = {
+      1: {
+        title: "Step 1: Entry Point (จุดเริ่มต้น)",
+        symbol: "Oval (วงรี)",
+        desc: "ผู้ใช้เปิดแอปเข้าสู่หน้าแรก (Home Screen) สังเกตเห็น Banner ปุ่ม 'สแกนจ่ายด่วน (Quick Pay)'",
+        ux: "Entry Point ควรเด่นชัด สามารถเข้าถึงภารกิจหลักได้ใน 1-2 คลิก"
+      },
+      2: {
+        title: "Step 2: User Action (การกระทำ)",
+        symbol: "Rectangle (สี่เหลี่ยมผืนผ้า)",
+        desc: "ผู้ใช้ทำการแตะปุ่ม 'สแกนจ่ายด่วน' กล้องสแกน QR Code เปิดขึ้นมาทันที",
+        ux: "เป็น Action ที่ตอบสนองความต้องการลดขั้นตอนยุ่งยาก"
+      },
+      3: {
+        title: "Step 3: Decision Node (จุดตัดสินใจเงื่อนไข)",
+        symbol: "Diamond (สี่เหลี่ยมข้าวหลามตัด)",
+        desc: "ระบบตรวจสอบ: ยอดเงินในบัญชีเพียงพอสำหรับชำระหรือไม่? (มีทางออก Yes / No)",
+        ux: "หาก No -> ส่งไปหน้าเติมเงินด่วน / หาก Yes -> ไปขั้นตอนชำระเงินทันที"
+      },
+      4: {
+        title: "Step 4: System Action (ระบบทำงาน)",
+        symbol: "Rectangle (สี่เหลี่ยมผืนผ้า)",
+        desc: "ระบบตัดยอดเงินและส่งคำสั่งยืนยันไปยังร้านค้าปลายทาง",
+        ux: "แสดงสถานะการรอคอย (Loading Feedback) ป้องกันผู้ใช้กดซ้ำ"
+      },
+      5: {
+        title: "Step 5: Success State (เป้าหมายสำเร็จ)",
+        symbol: "Oval (วงรี)",
+        desc: "แสดงหน้าจอ 'ชำระเงินสำเร็จ' พร้อมสลิปใบเสร็จ electronic และปุ่มกลับหน้าแรก",
+        ux: "เป็นอันบรรลุภารกิจของ User Flow"
+      }
+    };
+
+    /* Quiz Questions Data */
+    const quizQuestions = [
+      {
+        id: 1,
+        question: "ข้อใดกล่าวถึงการทำงานของ Main Component (❖) และ Instance Component (◇) ได้ถูกต้องที่สุด?",
+        options: [
+          "เมื่อแก้ไขดีไซน์ที่ Instance ชิ้นงาน Main Component จะเปลี่ยนตามเสมอ",
+          "เมื่อแก้ไขดีไซน์ที่ Main Component ชิ้นงาน Instance ทุกตัวจะอัปเดตตาม ยกเว้นส่วนที่ถูก Override ไว้",
+          "Instance ไม่สามารถเปลี่ยนสีหรือข้อความได้เด็ดขาด",
+          "การลบ Main Component จะทำให้ Instance ในไฟล์ถูกลบหายไปทั้งหมด"
+        ],
+        correct: 1,
+        explanation: "Main Component เป็นแม่แบบหลัก เมื่อแก้ไขโครงสร้าง แม่จะอัปเดตลูก (Instance) ทั้งหมด แต่ถ้าลูกมี Override เฉพาะจุดไว้ ข้อความหรือสีส่วนนั้นจะยังคงอยู่"
+      },
+      {
+        id: 2,
+        question: "หากต้องการสร้างปุ่ม Button ใน Figma ให้ขยายกว้างและหดรัดตามความยาวข้อความที่พิมพ์ภายในโดยอัตโนมัติ ควรตั้งค่าตามข้อใด?",
+        options: [
+          "ใส่ Group (Cmd+G) แล้วดึงยืดขอบเอาเอง",
+          "ใช้ Auto Layout (Shift + A) แล้วตั้งค่า Resizing เป็น Hug Content",
+          "ใช้ Constraints ตั้งค่าเป็น Scale ทั้งแนวนอนและแนวตั้ง",
+          "ใช้ Clip Content ซ่อนข้อความส่วนเกิน"
+        ],
+        correct: 1,
+        explanation: "Auto Layout ร่วมกับ Hug Content ช่วยให้กรอบปรับขนาดหดรัดตามระยะความยาวข้อความภายในได้อย่างสมบูรณ์"
+      },
+      {
+        id: 3,
+        question: "ข้อใดคือความแตกต่างหลักระหว่าง Primary Research และ Secondary Research?",
+        options: [
+          "Primary คือการวาด UI ใน Figma ส่วน Secondary คือการเขียนโค้ด",
+          "Primary คือการเก็บข้อมูลใหม่จากผู้ใช้จริงโดยตรง ส่วน Secondary คือการศึกษาข้อมูลที่มีผู้รวบรวมไว้แล้ว",
+          "Primary ใช้กับแอปมือถือ ส่วน Secondary ใช้กับเว็บไซต์",
+          "Primary ทำโดย Developer ส่วน Secondary ทำโดย Designer"
+        ],
+        correct: 1,
+        explanation: "Primary Research (สัมภาษณ์, ทดสอบ) เป็นการลงมือเก็บข้อมูลตรงจากผู้ใช้ ส่วน Secondary Research (วิเคราะห์คู่แข่ง, สถิติ) คือการใช้ข้อมูลที่มีอยู่แล้ว"
+      },
+      {
+        id: 4,
+        question: "การตั้งคำถามในรูปแบบ 'How Might We (HMW)...?' จัดอยู่ในขั้นตอนใดของการออกแบบ UX?",
+        options: [
+          "การส่งมอบงานให้ Developer (Handoff)",
+          "การแปลง Pain Point ปัญหาของผู้ใช้ ให้กลายเป็นโจทย์คำถามเพื่อระดมความคิดหาสิ่งแก้ไข (Ideation)",
+          "การเลือกซื้อฟอนต์และชุดสี",
+          "การตั้งค่า Auto Layout Gap"
+        ],
+        correct: 1,
+        explanation: "HMW Statement คือเทคนิคเปลี่ยนข้อขัดข้องของผู้ใช้ให้เป็นคำถามชวนคิดฟีเจอร์ใหม่ๆ"
+      },
+      {
+        id: 5,
+        question: "สัญลักษณ์มาตรฐานใดใน User Flowchart ที่ใช้代表 'จุดตัดสินใจเงื่อนไข' (เช่น ตรวจสอบว่าล็อกอินหรือยัง)?",
+        options: [
+          "Oval (รูปวงรี)",
+          "Rectangle (รูปสี่เหลี่ยมผืนผ้า)",
+          "Diamond (รูปสี่เหลี่ยมข้าวหลามตัด)",
+          "Arrow (ลูกศร)"
+        ],
+        correct: 2,
+        explanation: "Diamond (สี่เหลี่ยมข้าวหลามตัด) คือสัญลักษณ์มาตรฐานสำหรับ Decision Point ที่มีทางแยกตัดสินใจ Yes / No"
+      }
+    ];
+
+    /* Global States & Navigation Logic */
+    let currentCardIndex = 0;
+    let isFlipped = false;
+    let quizUserAnswers = {};
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateFlashcardUI();
+      setSimStep(1);
+      renderQuizUI();
+    });
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('tab-active');
+        el.classList.add('text-slate-400');
+      });
+
+      const selectedTabContent = document.getElementById(`content-${tabName}`);
+      const selectedTabBtn = document.getElementById(`tab-${tabName}`);
+
+      if (selectedTabContent && selectedTabBtn) {
+        selectedTabContent.classList.remove('hidden');
+        selectedTabBtn.classList.add('tab-active');
+        selectedTabBtn.classList.remove('text-slate-400');
+      }
+    }
+
+    function handleSearch(query) {
+      const searchResultsDiv = document.getElementById('searchResults');
+      const searchListDiv = document.getElementById('searchList');
+      const cleanQuery = query.trim().toLowerCase();
+
+      if (cleanQuery === '') {
+        searchResultsDiv.classList.add('hidden');
+        return;
+      }
+
+      const searchableItems = document.querySelectorAll('.searchable-item');
+      let matches = [];
+
+      searchableItems.forEach(item => {
+        const keywords = item.getAttribute('data-keywords') || '';
+        const textContent = item.innerText.toLowerCase();
+
+        if (keywords.toLowerCase().includes(cleanQuery) || textContent.includes(cleanQuery)) {
+          const title = item.querySelector('h3, h4')?.innerText || 'หัวข้อที่พบ';
+          matches.push({
+            title: title,
+            textSnippet: item.innerText.substring(0, 140)
+          });
+        }
+      });
+
+      if (matches.length > 0) {
+        searchResultsDiv.classList.remove('hidden');
+        searchListDiv.innerHTML = matches.map(m => `
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs hover:border-figma-purple transition">
+            <h5 class="font-bold text-figma-purple text-sm mb-1">${m.title}</h5>
+            <p class="text-slate-400 line-clamp-2">${m.textSnippet}...</p>
+          </div>
+        `).join('');
+      } else {
+        searchResultsDiv.classList.remove('hidden');
+        searchListDiv.innerHTML = `<div class="col-span-2 text-xs text-slate-500 py-3 text-center">ไม่พบเนื้อหาที่ตรงกับ "${query}"</div>`;
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResults').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') clearSearch();
+    });
+
+    /* Flow Simulator Step Switcher */
+    function setSimStep(stepIdx) {
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById(`sim-step-${i}`);
+        if (i === stepIdx) {
+          btn.className = "p-3 rounded-xl border border-figma-green bg-figma-green/20 text-white font-bold transition";
+        } else {
+          btn.className = "p-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 font-bold transition";
+        }
+      }
+
+      const info = simStepData[stepIdx];
+      const detailBox = document.getElementById('simDetailBox');
+      detailBox.innerHTML = `
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <span class="font-bold text-figma-green text-sm">${info.title}</span>
+          <span class="badge-fgreen font-mono text-[10px]">สัญลักษณ์: ${info.symbol}</span>
+        </div>
+        <p class="text-slate-200">${info.desc}</p>
+        <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
+          <strong class="text-white">หลัก UX ที่ซ่อนอยู่:</strong> ${info.ux}
+        </div>
+      `;
+    }
+
+    /* Flashcards Logic */
+    function flipCard() {
+      const card = document.getElementById('flashcardElement');
+      isFlipped = !isFlipped;
+      if (isFlipped) card.classList.add('rotate-y-180');
+      else card.classList.remove('rotate-y-180');
+    }
+
+    function updateFlashcardUI() {
+      const card = document.getElementById('flashcardElement');
+      card.classList.remove('rotate-y-180');
+      isFlipped = false;
+
+      setTimeout(() => {
+        const item = flashcardDeck[currentCardIndex];
+        document.getElementById('cardQuestion').innerText = item.q;
+        document.getElementById('cardAnswer').innerHTML = item.a;
+        document.getElementById('cardCounter').innerText = `${currentCardIndex + 1} / ${flashcardDeck.length}`;
+      }, 150);
+    }
+
+    function nextCard() {
+      if (currentCardIndex < flashcardDeck.length - 1) {
+        currentCardIndex++;
+        updateFlashcardUI();
+      }
+    }
+
+    function prevCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        updateFlashcardUI();
+      }
+    }
+
+    /* Quiz Renderer */
+    function renderQuizUI() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = quizQuestions.map((q, qIdx) => `
+        <div class="glass-card p-6 space-y-4 border border-slate-800">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-figma-red/20 text-figma-red flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
+              ${q.id}
+            </span>
+            <h4 class="font-bold text-white text-sm md:text-base leading-snug">${q.question}</h4>
+          </div>
+
+          <div class="space-y-2 text-xs pl-9">
+            ${q.options.map((opt, optIdx) => `
+              <button 
+                onclick="selectQuizOption(${qIdx}, ${optIdx})" 
+                id="q-${qIdx}-opt-${optIdx}"
+                class="quiz-opt-btn w-full text-left p-3 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 transition flex items-center justify-between"
+              >
+                <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <div id="quiz-exp-${qIdx}" class="hidden pl-9 pt-2">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1">
+              <span class="font-bold text-figma-purple flex items-center gap-1">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i> เฉลยอย่างละเอียด:
+              </span>
+              <p class="text-slate-300 leading-relaxed">${q.explanation}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function selectQuizOption(qIdx, optIdx) {
+      const qData = quizQuestions[qIdx];
+      quizUserAnswers[qIdx] = optIdx;
+
+      for (let i = 0; i < qData.options.length; i++) {
+        const btn = document.getElementById(`q-${qIdx}-opt-${i}`);
+        btn.className = "quiz-opt-btn w-full text-left p-3 rounded-xl border border-slate-800 bg-slate-900/80 text-slate-300 transition flex items-center justify-between";
+      }
+
+      const selectedBtn = document.getElementById(`q-${qIdx}-opt-${optIdx}`);
+      const expBox = document.getElementById(`quiz-exp-${qIdx}`);
+      expBox.classList.remove('hidden');
+
+      if (optIdx === qData.correct) {
+        selectedBtn.className = "quiz-opt-btn w-full text-left p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-200 transition flex items-center justify-between";
+      } else {
+        selectedBtn.className = "quiz-opt-btn w-full text-left p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-200 transition flex items-center justify-between";
+        const correctBtn = document.getElementById(`q-${qIdx}-opt-${qData.correct}`);
+        correctBtn.className = "quiz-opt-btn w-full text-left p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-200 transition flex items-center justify-between";
+      }
+
+      let score = 0;
+      Object.keys(quizUserAnswers).forEach(key => {
+        if (quizUserAnswers[key] === quizQuestions[key].correct) score++;
+      });
+      document.getElementById('quizScoreDisplay').innerText = `${score} / ${quizQuestions.length}`;
+    }
+  </script>
+</body>
+</html>
